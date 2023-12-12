@@ -128,25 +128,46 @@ class TurtlesimController(Node):
             self.go_straight(speed, a)
             self.turn(omega, angle)
             
-    def koch_gorbe(self, s, d, o, a):
-        for i in range(3):
-            self.go_straight(s, d)
-            self.turn(o, a)
-            
-            for j in range(2):
-                self.go_straight(s, d/3)
+    def koch_gorbe(self, N):
+        iteraciok = 3
+        if N >= 2:
+            for i in range(N-1):
+                iteraciok = iteraciok * 4
+        s = 1.0
+        o = 100.0
+        a = 120.0
+        d = 3
+        dis = 3
+        for i in range(N):
+            dis = dis / d
+        if N == 0:
+            for i in range(iteraciok):
+                self.go_straight(s, d)
                 self.turn(o, a)
-                self.go_straight(s, d/3)
-                self.turn(o, -2*a)
-                self.go_straight(s, d/3)
-                self.turn(o, a)
-                self.go_straight(s, d/3)
-                self.turn(o, -2*a)
-            
-            self.turn(o, 3*a)
-            self.go_straight(s, d)
-            self.turn(o, -2*a)
-            
+        else:
+            if N == 1:
+                for i in range(iteraciok):
+                    self.go_straight(s, dis)
+                    self.turn(o, -a/2)
+                    self.go_straight(s, dis)
+                    self.turn(o, a)
+                    self.go_straight(s, dis)
+                    self.turn(o, -a/2)
+                    self.go_straight(s, dis)
+                    self.turn(o, a)
+            else:
+                for i in range(iteraciok):
+                    self.go_straight(s, dis)
+                    self.turn(o, -a/2)
+                    self.go_straight(s, dis)
+                    self.turn(o, a)
+                    self.go_straight(s, dis)
+                    self.turn(o, -a/2)
+                    self.go_straight(s, dis)
+                    if i%2 == 0:
+                        self.turn(o, -a/2)
+                    else:
+                        self.turn(o, a)
             
 
 
@@ -161,7 +182,7 @@ def main(args=None):
     #tc.go_to(1.0, 20.0, 3, 4)
     #tc.go_to(1.0, 20.0, 6, 2)
 
-    tc.koch_gorbe(0.5, 1.0, 100.0, 60.0)
+    tc.koch_gorbe(2)
 
     # Destroy the node explicitly
     # (optional - otherwise it will be done automatically
